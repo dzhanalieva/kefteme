@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<!-- Begin Top Author Page
+================================================== -->
+<div class="container">
+ <div class="row">
+  <div class="col-md-2"></div>
+  <div class="col-md-8 col-md-offset-2">
+   <div class="mainheading">
+    <div class="row post-top-meta authorpage">
+     <div class="col-md-10 col-xs-12">
+      <h1>{{ user.username }}</h1>
+      <span class="author-description">Founder of <a target="_blank" href="https://www.wowthemes.net">WowThemes.net</a> and creator of <strong>"Mediumish"</strong> theme that you're currently previewing. I professionally develop premium themes, templates & scripts since the Apocalypse (2012). You can reach me out on the social links below.</span>
+      <div class="sociallinks"><a  target="_blank" href="https://www.facebook.com/wowthemesnet/"><i class="fa fa-facebook"></i></a> <span class="dot"></span> <a target="_blank" href="https://plus.google.com/s/wowthemesnet/top"><i class="fa fa-google-plus"></i></a></div>
+      <a target="_blank" href="https://twitter.com/wowthemesnet" class="btn follow">Follow</a>
+     </div>
+     <div class="col-md-2 col-xs-12">
+      <img class="author-thumb" src="{{ user.profile.image.url }}" alt="Sal">
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+ <form method="POST" enctype = "multipart/form-data">
+           {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">
+                    Profile
+                </legend>
+                {{ user_form|crispy }}
+                {{ profile_form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">
+                    Save Changes
+                </button>
+{#                <button class="btn btn-outline-danger">#}
+{#                    <a href="{% url 'delete_user' user.pk %}">#}
+{#                        Delete Profile#}
+{#                    </a>#}
+{#                </button>#}
+            </div>
+        </form>
+</div>
+<!-- End Top Author Meta
+================================================== -->
+<!-- Begin Author Posts
+================================================== -->
+<div class="container-fluid">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="section-title">
+                                <h4 class="m-0 text-uppercase font-weight-bold">{{ }}</h4>
+                            </div>
+                        </div>
+                        {% for object in products %}
+                        <div class="col-lg-6">
+                            <div class="position-relative mb-3">
+                                <img class="img-fluid w-100" src="{{ object.image.url }}" style="object-fit: cover;">
+                                <div class="bg-white border border-top-0 p-4">
+                                    <div class="mb-2">
+                                        <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
+                                            href="">{{ object.price }}$</a>
+                                        <a class="text-body" href=""><small>{{ object.created_date }}</small></a>
+                                    </div>
+                                    <a class="h4 d-block mb-3 text-secondary text-uppercase font-weight-bold" href="{% url 'product-detail' object.pk %}">{{ object.name }}</a>
+                                    <p class="m-0">{{ object.description }}</p>
+                                </div>
+                                <div class="d-flex justify-content-between bg-white border border-top-0 p-4">
+                                    <div class="d-flex align-items-center">
+                                        <img class="rounded-circle mr-2" src="../static/img/user.jpg" width="25" height="25" alt="">
+                                        <small>
+                                            <a href="http://127.0.0.1:8000/accounts/profile">{{ object.author }}</a>
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
